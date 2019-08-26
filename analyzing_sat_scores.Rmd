@@ -316,5 +316,33 @@ combined.plot.scatter(x = 'ap_per', y = 'sat_score')
 ```
 
 ```{python}
+# Analyzing the size of the class and the sat score
 
+
+# There seems to be a positive relation between size of the class and the sat score
+
+combined.plot.scatter(x = 'AVERAGE CLASS SIZE', y = 'sat_score')
+```
+
+```{python}
+# Finding the best schools and plotting them on a map
+
+m = Basemap(
+    projection='merc', 
+    llcrnrlat=40.496044, 
+    urcrnrlat=40.915256, 
+    llcrnrlon=-74.255735, 
+    urcrnrlon=-73.700272,
+    resolution='i'
+)
+
+m.drawmapboundary(fill_color='#85A6D9')
+m.drawcoastlines(color='#6D5F47', linewidth=.4)
+m.drawrivers(color='#6D5F47', linewidth=.4)
+m.fillcontinents(color='white',lake_color='#85A6D9')
+
+longitudes = average_safety_by_district['lon'].tolist()
+latitudes = average_safety_by_district['lat'].tolist()
+m.scatter(longitudes, latitudes, s=50, zorder=2, latlon=True, c=average_safety_by_district["sat_score"], cmap="summer")
+plt.show()
 ```
