@@ -245,7 +245,74 @@ plt.show()
 ```
 
 ```{python}
+# Race migth also be related to the SAT scores
+# There are 4 columns that contains the percentage of each race that a school has. 
+# The correlation bewteen the sat scores and each of this percentages is analyzed. 
 
+# There seems to be a positive and significative correlation between the white and asian percentage
+# and a negativa correlation between black and hispanic.
+combined.corr()['sat_score'][['white_per', 'asian_per', 'black_per', 'hispanic_per']].plot.bar()
+
+```
+
+```{python}
+# Inspecting the hispanic correlation more closely
+
+# This plot shows a clear negative correlation between sat_score and the percentage of hispanics
+combined.plot.scatter(x = 'hispanic_per', y = 'sat_score')
+```
+
+```{python}
+# Analyzing those schools with a high percentage of hispanic 
+
+schools_high_hispanics = combined[combined['hispanic_per']> 95]
+print(schools_high_hispanics['SCHOOL NAME'])
+```
+
+```{python}
+# Analyzing schools with high average sat score and low percentage of hispanics
+
+combined[(combined['hispanic_per'] < 10) & (combined['sat_score']>1800)]['SCHOOL NAME']
+```
+
+```{python}
+# There are two columns showing the average of women and men on each school
+# The correlation between gender and the sat score is plotted below
+
+# There seems to be a positive relation of the score and the number of females
+# There is a negative relation between the percentage of males and the sat score
+combined.corr()['sat_score'][['female_per', 'male_per']].plot.bar()
+```
+
+```{python}
+# Ploting female percentage and sat scores
+
+# There is no clear correlation between the female percentage and the sat score. 
+
+# Most of schools with a high sat score have between 40 to 60 percent of women
+combined.plot.scatter(x = 'female_per', y = 'sat_score')
+```
+
+```{python}
+# Analyzing schools with more than 1700 points on the sat and more than a 60% of female population
+
+# All of this schools have admissions exams and are related to ars
+
+combined[(combined['female_per']>60) & (combined['sat_score']>1700)]['SCHOOL NAME']
+```
+
+```{python}
+# Analyzing Advance Placement exams and sat scores
+
+# Calculating the percentage of AP test takers in each school
+combined['ap_per'] = combined['AP Test Takers '] / combined['total_enrollment']
+```
+
+```{python}
+# Plotting the percentage of AP test takers vs the sat score
+
+# There seems to be a postive relation, but is not very strong
+combined.plot.scatter(x = 'ap_per', y = 'sat_score')
 ```
 
 ```{python}
