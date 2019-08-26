@@ -208,6 +208,16 @@ combined.plot.scatter(x = 'saf_s_11', y = 'sat_score')
 ```
 
 ```{python}
+# Grouping the whole dataset by district and computing the mean of each of the columns
+
+group_district = combined.groupby('school_dist')
+average_safety_by_district = group_district.mean()
+average_safety_by_district.reset_index(inplace = True)
+```
+
+```{python}
+# A central spot in new york can be observed to have lower safety perception by the students
+
 import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
 
@@ -226,12 +236,18 @@ m = Basemap(
 m.drawmapboundary(fill_color='#85A6D9')
 m.drawcoastlines(color='#6D5F47', linewidth=.4)
 m.drawrivers(color='#6D5F47', linewidth=.4)
-# Temporary bug: if you run the following line of code in the Jupyter Guided Project interface on Dataquest, you'll get an error. 
-# We're working on a fix, thanks for your patience! This should work fine locally on your own computer though.
 m.fillcontinents(color='white',lake_color='#85A6D9')
 
-longitudes = districts["lon"].tolist()
-latitudes = districts["lat"].tolist()
-m.scatter(longitudes, latitudes, s=50, zorder=2, latlon=True, c=districts["saf_s_11"], cmap="summer")
+longitudes = average_safety_by_district['lon'].tolist()
+latitudes = average_safety_by_district['lat'].tolist()
+m.scatter(longitudes, latitudes, s=50, zorder=2, latlon=True, c=average_safety_by_district["saf_s_11"], cmap="summer")
 plt.show()
+```
+
+```{python}
+
+```
+
+```{python}
+
 ```
